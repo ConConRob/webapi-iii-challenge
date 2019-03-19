@@ -46,5 +46,18 @@ routes.get("/:id", (req, res) => {
     })
 })
 
+routes.delete("/:id", (req, res) => {
+  User.remove(req.params.id)
+  .then( data => {
+    if(!data){
+      res.status(404).json({message: "That user does not exist"})
+    }else {
+      res.status(202).json({message: "User was deleted", id: req.params.id})
+    }
+  })
+  .catch( err => {
+    res.status(500).json({message: "server error", error: err})
+  })
+})
 
 module.exports = routes;
