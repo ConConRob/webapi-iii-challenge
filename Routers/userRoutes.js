@@ -33,4 +33,18 @@ routes.get("/", (req, res) => {
     });
 });
 
+routes.get("/:id", (req, res) => {
+  User.getById(req.params.id)
+    .then(data => {
+      if(!data){
+        res.status(404).json({message: "That user does not exist"})
+      }else {
+        res.status(200).json(data)
+      }
+    }).catch( err => {
+      res.status(500).json({message: "server error", error: err})
+    })
+})
+
+
 module.exports = routes;
