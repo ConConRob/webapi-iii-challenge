@@ -21,11 +21,23 @@ routes.post("/", (req, res) => {
 
 routes.get("/", (req, res) => {
   Posts.get()
-  .then(data => {
-    res.status(200).json(data);
-  })
-  .catch(error => {
-    res.status(500).json({message: "Server error", error})
+    .then(data => {
+      res.status(200).json(data);
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Server error", error });
+    });
+});
+
+routes.get("/:id", (req, res) => {
+  Posts.getById(req.params.id).then(data => {
+    if (!data) {
+      res.status(404).json({ message: "That post does not exist" });
+    } else {
+      res.status(200).json(data);
+    }
+  }).catch(error => {
+    res.status(500).json({message:"Server error", error})
   })
 });
 
