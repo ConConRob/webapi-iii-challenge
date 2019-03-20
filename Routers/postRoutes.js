@@ -57,7 +57,6 @@ routes.put("/:id", (req, res) => {
 })
 
 routes.delete("/:id", (req, res) => {
- 
     Posts.remove(req.params.id)
       .then(data => {
         res.status(200).json(data);
@@ -67,5 +66,6 @@ routes.delete("/:id", (req, res) => {
       });
   
 })
+
 
 module.exports = routes;
