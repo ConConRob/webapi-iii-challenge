@@ -2,6 +2,7 @@ const express = require("express");
 const routes = express.Router();
 const User = require("../data/helpers/userDb");
 
+
 routes.use(express.json());
 
 routes.post("/", (req, res) => {
@@ -47,6 +48,8 @@ routes.get("/:id", (req, res) => {
 })
 
 routes.delete("/:id", (req, res) => {
+  
+
   User.remove(req.params.id)
   .then( data => {
     if(!data){
@@ -79,4 +82,14 @@ routes.put("/:id", (req, res) => {
   }
 
 })
+
+routes.get('/:id/posts', (req, res) => {
+  const { id } = req.params;
+  // Check if user with id exists.
+  User.getUserPosts(id)
+  .then(data => {
+    res.status(200).json(data);
+  })
+  // ADD .catch
+}) 
 module.exports = routes;

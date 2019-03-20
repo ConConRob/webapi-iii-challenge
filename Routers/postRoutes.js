@@ -46,14 +46,26 @@ routes.put("/:id", (req, res) => {
   if (!text || !user_id) {
     res.status(400).json({ message: "A text and a user_id is required" });
   } else {
-    Posts.insert(req.params.id, req.body)
+    Posts.update(req.params.id, req.body)
       .then(data => {
-        res.status(204).json({...req.body, id: req.params.id});
+        res.status(200).json({...req.body, id: req.params.id});
       })
       .catch(err => {
         res.status(500).json({ message: "Server error", error: err });
       });
   }
+})
+
+routes.delete("/:id", (req, res) => {
+ 
+    Posts.remove(req.params.id)
+      .then(data => {
+        res.status(200).json(data);
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Server error", error: err });
+      });
+  
 })
 
 module.exports = routes;
