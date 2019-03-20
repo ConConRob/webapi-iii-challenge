@@ -13,7 +13,7 @@ routes.post("/", (req, res) => {
       if (data) {
         res.status(201).json(data);
       } else {
-        res.status(409).json({ message: "Username is alreay taken" });
+        res.status(409).json({ message: "Username is already taken" });
       }
     })
     .catch(err => {
@@ -60,4 +60,23 @@ routes.delete("/:id", (req, res) => {
   })
 })
 
+routes.put("/:id", (req, res) => {
+  
+  if(!req.body.name){
+    res.status(400).json({message: "A name is required to do this request"})
+  }else {
+    User.update(req.params.id, req.body)
+    .then(data => {
+      if (data) {
+        res.status(201).json(data);
+      } else {
+        res.status(404).json({ message: "User does not exist" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Server error", error: err });
+    });
+  }
+
+})
 module.exports = routes;

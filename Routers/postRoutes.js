@@ -1,6 +1,6 @@
 const express = require("express");
-const routes = express.Router();
 const Posts = require("../data/helpers/postDb");
+const routes = express.Router();
 
 routes.use(express.json());
 
@@ -40,5 +40,20 @@ routes.get("/:id", (req, res) => {
     res.status(500).json({message:"Server error", error})
   })
 });
+
+routes.put("/:id", (req, res) => {
+  const { text, user_id } = req.body;
+  if (!text || !user_id) {
+    res.status(400).json({ message: "A text and a user_id is required" });
+  } else {
+    Posts.insert(req.params.id, req.body)
+      .then(data => {
+        res.status(204).json({...req.body, id: req.params.id});
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Server error", error: err });
+      });
+  }
+})
 
 module.exports = routes;
